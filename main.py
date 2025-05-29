@@ -1,5 +1,5 @@
 import streamlit as st
-
+import PyPDF2
 from symptom_assessor import assess_symptoms  # Import your helper function
 
 # ───────────── Streamlit App Configuration ──────────────
