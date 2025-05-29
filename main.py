@@ -8,9 +8,9 @@ st.set_page_config(page_title="Healthcare Chatbot", layout="wide")
 st.markdown("""
     <style>
     .main { font-family: 'Segoe UI', sans-serif; }
-    .stApp { background-color: #00000; }
+    .stApp { background-color: #000000; }
     .response-box {
-        background-color: #00000;
+        background-color: #f0f0f0;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
