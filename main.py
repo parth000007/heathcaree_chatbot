@@ -1,5 +1,6 @@
 import streamlit as st
 # Import pdfminer.six for PDF processing
+
 from pdfminer.high_level import extract_text
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFSyntaxError
