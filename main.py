@@ -1,5 +1,8 @@
 import streamlit as st
-# Import pdfminer.six for PDF processing (REMOVED)
+# Import pdfminer.six for PDF processing
+from pdfminer.high_level import extract_text
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfparser import PDFSyntaxError
 
 # Ensure 'symptom_assessor.py' is in the same directory or accessible in your Python path
 from symptom_assessor import assess_symptoms
@@ -101,7 +104,7 @@ if service == "Symptom Assessment":
     with st.form("symptom_form", clear_on_submit=False):
         symptoms = st.text_area("✍️ Describe your symptoms thoroughly (e.g., 'fever, headache, body aches').", height=150)
         duration = st.text_input("⏱ Duration (e.g., '3 days', '1 week', 'since yesterday')")
-        uploaded_file = st.file_uploader("📎 Optional: Upload extra info (TXT only)", type=["txt"], accept_multiple_files=False)
+        uploaded_file = st.file_uploader("📎 Optional: Upload extra info (TXT or PDF)", type=["txt", "pdf"], accept_multiple_files=False)
         submitted = st.form_submit_button("🩺 Assess My Symptoms")
 
     if submitted:
@@ -116,6 +119,14 @@ if service == "Symptom Assessment":
                     if uploaded_file.type == "text/plain":
                         file_content = uploaded_file.read().decode("utf-8")
                         st.success(f"📄 Successfully processed text file: {uploaded_file.name}")
+                    elif uploaded_file.type == "application/pdf":
+                        # pdfminer.six's extract_text can take a file-like object
+                        # It's generally more robust for text extraction
+                        file_content = extract_text(uploaded_file)
+                        st.success(f"📄 Successfully processed PDF file: {uploaded_file.name}")
+                except PDFSyntaxError:
+                    st.error("❌ Error reading PDF. The file might be corrupted, encrypted, or not a valid PDF.")
+                    file_content = None # Ensure file_content is None on error
                 except Exception as e:
                     st.error(f"❌ An unexpected error occurred while reading the file: {e}")
                     file_content = None
