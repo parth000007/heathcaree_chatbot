@@ -1,1 +1,1 @@
-geminiai_key="AIzaSyDJWp3JEAe3CPzFGqLVTB_B4giSa-qMhj4"
+API_KEY="AIzaSyDJWp3JEAe3CPzFGqLVTB_B4giSa-qMhj4"

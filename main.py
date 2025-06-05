@@ -1,42 +1,35 @@
 import streamlit as st
-# Import pdfminer.six for PDF processing
-
-# Ensure 'symptom_assessor.py' is in the same directory or accessible in your Python path
 from symptom_assessor import assess_symptoms
 
 # --- Streamlit App Configuration ---
 st.set_page_config(
     page_title="Healthcare Chatbot Assistant",
     layout="wide",
-    initial_sidebar_state="expanded" # Keep sidebar expanded by default
+    initial_sidebar_state="expanded"
 )
 
 # --- Custom CSS for Styling ---
 st.markdown("""
     <style>
-    /* Main container font and background */
     .main {
         font-family: 'Segoe UI', sans-serif;
-        background-color: #000000; /* Dark background as per original */
-        color: #FFFFFF; /* White text for better contrast */
+        background-color: #000000;
+        color: #FFFFFF;
     }
-    /* Specific styling for the Streamlit app container */
     .stApp {
-        background-color: #000000; /* Ensure the very base is black */
+        background-color: #000000;
     }
-    /* Response box styling */
     .response-box {
-        background-color: #333333; /* Darker grey for response boxes */
-        color: #E0E0E0; /* Light text for response boxes */
+        background-color: #333333;
+        color: #E0E0E0;
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Stronger shadow for depth */
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
         margin-bottom: 20px;
-        border: 1px solid #555555; /* Subtle border */
+        border: 1px solid #555555;
     }
-    /* Style for Streamlit buttons */
     .stButton>button {
-        background-color: #4CAF50; /* Green submit buttons */
+        background-color: #4CAF50;
         color: white;
         border-radius: 5px;
         border: none;
@@ -48,34 +41,28 @@ st.markdown("""
     .stButton>button:hover {
         background-color: #45a049;
     }
-    /* Input fields and text areas */
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+    .stTextInput input, .stTextArea textarea {
         background-color: #222222;
         color: #FFFFFF;
         border: 1px solid #555555;
         border-radius: 5px;
         padding: 10px;
     }
-    /* Selectbox styling */
-    .stSelectbox>div>div>div>div {
+    .stSelectbox div[data-baseweb="select"] > div {
         background-color: #222222;
         color: #FFFFFF;
         border: 1px solid #555555;
         border-radius: 5px;
     }
-    /* Sidebar styling */
     .stSidebar {
-        background-color: #1a1a1a; /* Darker sidebar */
+        background-color: #1a1a1a;
         color: #FFFFFF;
-    }
-    .stSidebar .stSelectbox {
-        background-color: #222222;
     }
     </style>
 """, unsafe_allow_html=True)
 
 st.title("🩺 AI-Powered Healthcare Chatbot Assistant")
-st.markdown("---") # Horizontal line for visual separation
+st.markdown("---")
 
 # --- Sidebar Navigation ---
 st.sidebar.header("Choose a Service")
@@ -88,7 +75,7 @@ service = st.sidebar.selectbox(
         "Health Information",
         "Patient Support"
     ],
-    index=0 # Default to Symptom Assessment
+    index=0
 )
 
 # --- Service Implementations ---
@@ -110,12 +97,12 @@ if service == "Symptom Assessment":
             st.warning("⚠️ Please provide the duration of your symptoms.")
         else:
             with st.spinner("🧠 Gemini is thinking and analyzing your symptoms..."):
-                # Call your symptom assessment function without file content
                 assessment_result = assess_symptoms(symptoms, duration)
 
             st.markdown("### ✨ AI Assessment Result")
             st.markdown(f"<div class='response-box'>{assessment_result}</div>", unsafe_allow_html=True)
             st.info("⚠️ **Disclaimer:** This assessment is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for any medical concerns.")
+
 elif service == "Appointment Scheduling":
     st.header("🗓️ Appointment Scheduling")
     with st.form("appointment_form", clear_on_submit=True):
@@ -163,7 +150,7 @@ elif service == "Health Information":
             "Women's Health",
             "General Wellness"
         ],
-        index=0 # Default to Nutrition
+        index=0
     )
 
     health_topics_info = {
@@ -246,32 +233,7 @@ elif service == "Health Information":
     }
 
     if topic:
-        info = health_topics_info.get(topic, health_topics_info["General Wellness"]) # Fallback to general wellness
+        info = health_topics_info.get(topic, health_topics_info["General Wellness"])
         st.subheader(info["title"])
         st.markdown(f"*{info['description']}*")
-        st.markdown("**Key Points:**")
-        for point in info["points"]:
-            st.markdown(f"- {point}")
-
-elif service == "Patient Support":
-    st.header("🤝 Patient Support")
-    st.info("Share your concerns or questions, and our wellness coach team will provide support and guidance.")
-    with st.form("support_form", clear_on_submit=True):
-        full_name = st.text_input("👤 Your Full Name")
-        contact_email = st.text_input("📧 Your Email Address")
-        concern = st.text_area("💬 Describe your concern or question here", height=150)
-        privacy_agree = st.checkbox("✅ I agree to share this information for support purposes.")
-        submit = st.form_submit_button("📩 Request Support")
-
-        if submit:
-            if not all([full_name, contact_email, concern, privacy_agree]):
-                st.warning("⚠️ Please fill in all fields and agree to the terms to request support.")
-            else:
-                st.success("🙏 Thank you for sharing your concern. Our wellness coach will get back to you via email shortly.")
-                st.markdown(f"**Concern submitted by:** {full_name} ({contact_email})")
-                st.markdown(f"**Your Message:** _{concern}_")
-
-# --- Footer ---
-st.markdown("---")
-st.markdown("<center>Built with ❤️ using Streamlit | Still under active development</center>", unsafe_allow_html=True)
-st.markdown("<center>_For emergencies, always contact professional medical services directly._</center>", unsafe_allow_html=True)
+        st.mark 
