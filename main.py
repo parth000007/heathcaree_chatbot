@@ -1,8 +1,5 @@
 import streamlit as st
 # Import pdfminer.six for PDF processing
-from pdfminer.high_level import extract_text
-from pdfminer.pdfpage import PDFPage
-from pdfminer.pdfparser import PDFSyntaxError
 
 # Ensure 'symptom_assessor.py' is in the same directory or accessible in your Python path
 from symptom_assessor import assess_symptoms
