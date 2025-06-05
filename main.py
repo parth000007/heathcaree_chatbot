@@ -104,7 +104,6 @@ if service == "Symptom Assessment":
     with st.form("symptom_form", clear_on_submit=False):
         symptoms = st.text_area("✍️ Describe your symptoms thoroughly (e.g., 'fever, headache, body aches').", height=150)
         duration = st.text_input("⏱ Duration (e.g., '3 days', '1 week', 'since yesterday')")
-        uploaded_file = st.file_uploader("📎 Optional: Upload extra info (TXT or PDF)", type=["txt", "pdf"], accept_multiple_files=False)
         submitted = st.form_submit_button("🩺 Assess My Symptoms")
 
     if submitted:
@@ -113,32 +112,13 @@ if service == "Symptom Assessment":
         elif not duration:
             st.warning("⚠️ Please provide the duration of your symptoms.")
         else:
-            file_content = None
-            if uploaded_file:
-                try:
-                    if uploaded_file.type == "text/plain":
-                        file_content = uploaded_file.read().decode("utf-8")
-                        st.success(f"📄 Successfully processed text file: {uploaded_file.name}")
-                    elif uploaded_file.type == "application/pdf":
-                        # pdfminer.six's extract_text can take a file-like object
-                        # It's generally more robust for text extraction
-                        file_content = extract_text(uploaded_file)
-                        st.success(f"📄 Successfully processed PDF file: {uploaded_file.name}")
-                except PDFSyntaxError:
-                    st.error("❌ Error reading PDF. The file might be corrupted, encrypted, or not a valid PDF.")
-                    file_content = None # Ensure file_content is None on error
-                except Exception as e:
-                    st.error(f"❌ An unexpected error occurred while reading the file: {e}")
-                    file_content = None
-
             with st.spinner("🧠 Gemini is thinking and analyzing your symptoms..."):
-                # Call your symptom assessment function
-                assessment_result = assess_symptoms(symptoms, duration, file_content)
+                # Call your symptom assessment function without file content
+                assessment_result = assess_symptoms(symptoms, duration)
 
             st.markdown("### ✨ AI Assessment Result")
             st.markdown(f"<div class='response-box'>{assessment_result}</div>", unsafe_allow_html=True)
-            st.info("⚠️ **Disclaimer:** This assessment is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for any medical concerns.")
-
+            st.info("⚠️ **Disclaimer:** This assessment is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for any medical concerns.")git status
 elif service == "Appointment Scheduling":
     st.header("🗓️ Appointment Scheduling")
     with st.form("appointment_form", clear_on_submit=True):
