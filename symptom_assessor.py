@@ -1,12 +1,12 @@
 import os
 import google.generativeai as genai
-from secret_key import API_KEY
+from secret_key import GeminiAi_key
 
 # --- Configure Gemini API ---
-if not API_KEY:
+if not GeminiAi_key :
     raise ValueError("❌ API_KEY is missing! Please check your secret_key.py file.")
 
-genai.configure(api_key=API_KEY)
+genai.configure(api_key=GeminiAi_key)
 
 # --- Initialize Gemini Model (Text Only) ---
 try:
