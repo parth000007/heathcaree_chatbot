@@ -118,7 +118,7 @@ if service == "Symptom Assessment":
 
             st.markdown("### ✨ AI Assessment Result")
             st.markdown(f"<div class='response-box'>{assessment_result}</div>", unsafe_allow_html=True)
-            st.info("⚠️ **Disclaimer:** This assessment is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for any medical concerns.")git status
+            st.info("⚠️ **Disclaimer:** This assessment is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified healthcare provider for any medical concerns.")
 elif service == "Appointment Scheduling":
     st.header("🗓️ Appointment Scheduling")
     with st.form("appointment_form", clear_on_submit=True):
