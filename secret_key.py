@@ -1,1 +1,1 @@
-API_KEY="AIzaSyDJWp3JEAe3CPzFGqLVTB_B4giSa-qMhj4"
+GeminiAi_key="AIzaSyDJWp3JEAe3CPzFGqLVTB_B4giSa-qMhj4"
