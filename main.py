@@ -211,4 +211,4 @@ elif service == "Health Information":
 
 # ───────────── Footer ──────────────
 st.markdown("---")
-st.markdown("<center>Built with using Streamlit | Still under development</center>", unsafe_allow_html=True)
+st.markdown("<center>Built with using Streamlit (DIVYANSHU KAUSHIK -ANURAG DAS)| Still under development</center>", unsafe_allow_html=True)
