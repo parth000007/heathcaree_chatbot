@@ -146,7 +146,7 @@ if service == "Symptom Assessment":
                 except Exception as e:
                     st.warning(f"❌ Could not read the uploaded file: {e}")
 
-            with st.spinner("Gemini is thinking…"):
+            with st.spinner("AI is thinking…"):
                 result = assess_symptoms(symptoms, duration, file_text)
 
             st.markdown("### AI Assessment Result")
@@ -211,4 +211,4 @@ elif service == "Health Information":
 
 # ───────────── Footer ──────────────
 st.markdown("---")
-st.markdown("<center>Built with using Streamlit (DIVYANSHU KAUSHIK -ANURAG DAS)| Still under development</center>", unsafe_allow_html=True)
+st.markdown("<center>Built with using Streamlit (DIVYANSHU KAUSHIK )| Still under development</center>", unsafe_allow_html=True)
