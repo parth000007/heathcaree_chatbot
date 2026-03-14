@@ -22,7 +22,7 @@ except ImportError:
 # Gemini via LangChain setup
 # ────────────────────────────────────────────────────────────────────────────────
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",  # or "gemini-1.5-pro"
+    model="gemini-1.5-pro",
     temperature=0.6,
     google_api_key=geminiai_key
 )
