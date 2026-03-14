@@ -19,23 +19,49 @@ except ImportError:
     geminiai_key = "YOUR_PLACEHOLDER_GEMINI_API_KEY" # Placeholder for direct execution if key is missing
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Gemini via LangChain setup
+# Available Gemini models
 # ────────────────────────────────────────────────────────────────────────────────
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",  # or "gemini-1.5-pro"
-    temperature=0.6,
-    google_api_key=geminiai_key
-)
+AVAILABLE_MODELS = [
+    "gemini-2.5-flash-lite",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro",
+]
+DEFAULT_MODEL = AVAILABLE_MODELS[0]
+
+# ────────────────────────────────────────────────────────────────────────────────
+# LLM instance cache (keyed by model name)
+# ────────────────────────────────────────────────────────────────────────────────
+_llm_cache: dict = {}
+
+def _get_llm(model: str) -> ChatGoogleGenerativeAI:
+    """Return a cached ChatGoogleGenerativeAI instance for the given model name."""
+    if model not in _llm_cache:
+        _llm_cache[model] = ChatGoogleGenerativeAI(
+            model=model,
+            temperature=0.6,
+            google_api_key=geminiai_key
+        )
+    return _llm_cache[model]
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Public helper function for symptom assessment
 # ────────────────────────────────────────────────────────────────────────────────
 def assess_symptoms(symptoms: str,
                     duration: str,
-                    file_content: str | None = None) -> str:
+                    file_content: str | None = None,
+                    model: str = DEFAULT_MODEL) -> str:
     """
     Generate a preliminary AI assessment using Gemini via LangChain.
+
+    Parameters
+    ----------
+    symptoms     : Description of the patient's symptoms.
+    duration     : How long the symptoms have been present.
+    file_content : Optional additional medical information from an uploaded file.
+    model        : Gemini model name to use for the assessment.
     """
+    llm = _get_llm(model)
     prompt_parts = [
         f"I have the following symptoms: {symptoms}.",
         f"These symptoms have been present for {duration}.",
