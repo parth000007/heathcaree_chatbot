@@ -6,14 +6,16 @@ import io
 # This file contains the 'assess_symptoms' function which uses the Gemini API.
 # Make sure you also have 'secret_key.py' in the same directory with your Gemini API key.
 try:
-    from symptom_assessor import assess_symptoms
+    from symptom_assessor import assess_symptoms, AVAILABLE_MODELS, DEFAULT_MODEL
 except ImportError:
     st.error("Error: 'symptom_assessor.py' not found or 'assess_symptoms' not defined.")
     st.warning("Please ensure symptom_assessor.py is in the same directory and contains the assess_symptoms function.")
     st.info("The application will run, but symptom assessment will not function correctly.")
     # Define a dummy function to prevent errors if import fails, but indicate the issue
-    def assess_symptoms(symptoms, duration, file_content=None):
+    def assess_symptoms(symptoms, duration, file_content=None, model=None):
         return "Error: Symptom assessment service is unavailable. Check your 'symptom_assessor.py' setup."
+    AVAILABLE_MODELS = ["gemini-2.5-flash-lite"]
+    DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 
 # ───────────── Streamlit App Configuration ──────────────
@@ -107,6 +109,18 @@ st.title("🩺 AI-Powered Healthcare Chatbot Assistant")
 
 # ───────────── Sidebar Navigation ──────────────
 st.sidebar.header("Choose a Service")
+
+st.sidebar.markdown("---")
+st.sidebar.subheader("🤖 AI Model Selection")
+selected_model = st.sidebar.selectbox(
+    "Gemini Model",
+    AVAILABLE_MODELS,
+    index=AVAILABLE_MODELS.index(DEFAULT_MODEL),
+    help="Select the Gemini model used for the Symptom Assessment service.",
+    key="selected_model"
+)
+st.sidebar.markdown("---")
+
 service = st.sidebar.selectbox("Services Offered", [
     "Symptom Assessment",
     "Appointment Scheduling",
@@ -147,7 +161,7 @@ if service == "Symptom Assessment":
                     st.warning(f"❌ Could not read the uploaded file: {e}")
 
             with st.spinner("AI is thinking…"):
-                result = assess_symptoms(symptoms, duration, file_text)
+                result = assess_symptoms(symptoms, duration, file_text, model=selected_model)
 
             st.markdown("### AI Assessment Result")
             st.markdown(f"<div class='response-box'>{result}</div>", unsafe_allow_html=True)
